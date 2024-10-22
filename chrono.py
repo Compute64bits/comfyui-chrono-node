@@ -3,24 +3,28 @@ import comfy.utils
 
 time = datetime.now()
 
+class AnyType(str):
+    def __ne__(self, __value: object) -> bool:
+        return False
+
 class Chrono_reset:
     def __init__(self):
         pass
     
     @classmethod
     def INPUT_TYPES(s):
-        return { "required": {"clip": ("CLIP",), } }
+        return { "required": {"any": (AnyType("*"),), } }
 
-    RETURN_TYPES = ("CLIP",)
-    RETURN_NAMES = ("clip",)
+    RETURN_TYPES = (AnyType("*"),)
+    RETURN_NAMES = ("out",)
 
     FUNCTION = "reset"
     CATEGORY = "Chrono ⏱️"
 
-    def reset(self, clip):
+    def reset(self, any):
         global time
         time = datetime.now()
-        return (clip,)
+        return (any,)
 
 class Chrono_get:
     def __init__(self):
@@ -28,17 +32,17 @@ class Chrono_get:
     
     @classmethod
     def INPUT_TYPES(s):
-        return { "required": {"image": ("IMAGE",), } }
+        return { "required": {"any": (AnyType("*"),), } }
 
-    RETURN_TYPES = ("IMAGE",)
-    RETURN_NAMES = ("image",)
+    RETURN_TYPES = (AnyType("*"),)
+    RETURN_NAMES = ("out",)
 
     FUNCTION = "get"
     CATEGORY = "Chrono ⏱️"
 
-    def get(self, image): 
+    def get(self, any): 
         print("⏱️ Time:", datetime.now() - time)
-        return (image,)
+        return (any,)
 
 NODE_CLASS_MAPPINGS = {
     "Chrono Reset": Chrono_reset,
